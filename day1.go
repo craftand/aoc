@@ -1,10 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
+	"strings"
 )
 
 func main() {
@@ -12,12 +13,18 @@ func main() {
 }
 
 func day1() {
+
+	data, err := os.ReadFile("./day1.dat")
+
+	if nil != err {
+		panic(err)
+	}
+
 	index := 0
 	calories := make([]int, 0)
+	lines := strings.Split(string(data), "\n")
 
-	stdin := bufio.NewScanner(os.Stdin)
-	for stdin.Scan() {
-		line := stdin.Text()
+	for _, line := range lines {
 		fmt.Println("Got line", line)
 
 		var count int
@@ -39,12 +46,16 @@ func day1() {
 			fmt.Println("Elf at index", index, "has a total of", calories[index], "calories")
 			index++
 		}
+
+		sort.So
+		fmt.Println("Elf with max calories is:", max)
 	}
 }
 
 func findCalorie(calories []int, index int) ([]int, int) {
 	count := 0
-	if len(calories) > 0 {
+	len := len(calories)
+	if len > 0 && (len-1) == index {
 		count = calories[index]
 	} else {
 		calories = append(calories, 0)
