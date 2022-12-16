@@ -14,7 +14,7 @@ func main() {
 
 func day1() {
 
-	data, err := os.ReadFile("./day1.dat")
+	data, err := os.ReadFile("./day1.txt")
 
 	if nil != err {
 		panic(err)

@@ -18,35 +18,19 @@ const (
 	Win  int = 6
 )
 
-func main() {
-	day2()
-}
+// Y == draw, X == lose, Z == win
+var table = map[string]int{
+	"A Y": Draw + Rock,
+	"B Y": Draw + Paper,
+	"C Y": Draw + Scissors,
 
-func day2() {
+	"A X": Loss + Scissors,
+	"B X": Loss + Rock,
+	"C X": Loss + Paper,
 
-	totalScore := 0
-	cheatScore := 0
-	data, err := os.ReadFile("./day2.dat")
-
-	if nil != err {
-		panic(err)
-	}
-
-	rps := string(data)
-
-	for _, line := range strings.Split(rps, "\n") {
-		hand := strings.Split(line, " ")
-		lhs := str2rps(hand[0]) //opponent
-		rhs := str2rps(hand[1])
-
-		score := rpsScore(lhs, rhs)
-
-		totalScore += score + rhs
-		cheatScore += rpsScore2(rhs) + rhs
-	}
-
-	fmt.Println("Total Score is:", totalScore)
-	fmt.Println("Cheat score is:", cheatScore)
+	"A Z": Win + Paper,
+	"B Z": Win + Scissors,
+	"C Z": Win + Rock,
 }
 
 func str2rps(encoded string) int {
@@ -62,6 +46,39 @@ func str2rps(encoded string) int {
 	return 0
 }
 
+func main() {
+	day2()
+}
+
+func day2() {
+
+	totalScore := 0
+	cheatScore := 0
+	data, err := os.ReadFile("./day2.txt")
+
+	if nil != err {
+		panic(err)
+	}
+
+	rps := string(data)
+
+	for _, line := range strings.Split(rps, "\n") {
+		hand := strings.Split(line, " ")
+		lhs := str2rps(hand[0]) //opponent
+		rhs := str2rps(hand[1])
+
+		score := rpsScore(lhs, rhs)
+
+		totalScore += score + rhs
+		cscore := table[line]
+
+		cheatScore += cscore
+	}
+
+	fmt.Println("Total Score is:", totalScore)
+	fmt.Println("Cheat score is:", cheatScore)
+}
+
 func rpsScore(lhs, rhs int) int {
 	if lhs == rhs {
 		return Draw
@@ -70,18 +87,6 @@ func rpsScore(lhs, rhs int) int {
 	} else if rhs == Scissors && lhs == Paper {
 		return Win
 	} else if rhs == Paper && lhs == Rock {
-		return Win
-	}
-
-	return Loss
-}
-
-func rpsScore2(rhs int) int {
-	if rhs == Rock {
-		return Loss
-	} else if rhs == Paper {
-		return Draw
-	} else if rhs == Scissors {
 		return Win
 	}
 
