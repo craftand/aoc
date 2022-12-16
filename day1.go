@@ -46,10 +46,18 @@ func day1() {
 			fmt.Println("Elf at index", index, "has a total of", calories[index], "calories")
 			index++
 		}
-
-		sort.So
-		fmt.Println("Elf with max calories is:", max)
 	}
+
+	len := len(calories)
+	sort.Ints(calories)
+	fmt.Println("Day 1: Max calories is:", calories[len-1])
+
+	top3 := calories[len-3:]
+	sum := 0
+	for _, i := range top3 {
+		sum += i
+	}
+	fmt.Println("Day 2: Top 3 calories:", sum)
 }
 
 func findCalorie(calories []int, index int) ([]int, int) {
